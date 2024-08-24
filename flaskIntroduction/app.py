@@ -1,9 +1,13 @@
 from flask import Flask, render_template, url_for
 from forms import RegistrationForm, LoginForm
+# import json
 
 app = Flask(__name__)
 
-app.config['SECRET KEY'] = 'a72b2bd403ed74e86db3ac5ada8c6ab0'
+app.config['SECRET_KEY'] = 'a72b2bd403ed74e86db3ac5ada8c6ab0'
+
+# with open('posts.json', 'r') as file:
+# 	posts_dict = json.load(file)
 
 posts = [
     {
@@ -32,6 +36,16 @@ def about():
 @app.route('/makk')
 def makk():
     return render_template("makk.html")
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    return render_template("register.html", form=form, title='Register')
+
+@app.route('/login')
+def login():
+    form = LoginForm()
+    return render_template("login.html", form=form, title='Login')
 
 
 if __name__ == "__main__":
