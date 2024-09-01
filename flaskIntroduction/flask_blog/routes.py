@@ -1,4 +1,4 @@
-from flask_blog import app
+from flask_blog import app, db, brcypt
 from flask import render_template, url_for, flash, redirect
 from flask_blog.forms import RegistrationForm, LoginForm
 from flask_blog.models import User, Post
@@ -38,8 +38,13 @@ def makk():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
+        hashed_password = brcypt.generate_password_hash(form.password.data).decode('utf-8') # Hash the password
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password) # add user data
+        db.create_all()
+        db.session.add(user)
+        db.session.commit() # Add and commit changes to the db
+        flash(f'Your account has been created. You are now able to log in', 'success')
+        return redirect(url_for('login'))
     return render_template("register.html", form=form, title='Register')
 
 @app.route('/login', methods=['GET', 'POST'])
