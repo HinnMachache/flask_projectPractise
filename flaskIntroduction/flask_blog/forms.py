@@ -55,6 +55,8 @@ class UpdateForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Email already taken. Please choose a different one')
+            
+# https://www.blackbox.ai/share/1d6b04f2-f587-4958-a24c-2c7bb3a9cd0d
 
 
 
