@@ -39,6 +39,10 @@ def about():
 def makk():
     return render_template("makk.html")
 
+@app.route('/overview')
+def overview():
+    return render_template("overview.html")
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
