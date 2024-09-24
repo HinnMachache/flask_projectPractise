@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user # Used to check current_user info
-from wtforms import StringField, PasswordField, EmailField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, EmailField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flask_blog.models import User, Post
+
+from flask_blog.models import User
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -55,20 +56,3 @@ class UpdateForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('Email already taken. Please choose a different one')
-
-
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
-
-
-
-
-
-# https://www.blackbox.ai/share/1d6b04f2-f587-4958-a24c-2c7bb3a9cd0d
-
-
-
-
-    
