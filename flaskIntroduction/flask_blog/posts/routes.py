@@ -16,5 +16,5 @@ def new_posts():
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created successfully!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     return render_template("create_post.html", title="Create Posts", form=form)

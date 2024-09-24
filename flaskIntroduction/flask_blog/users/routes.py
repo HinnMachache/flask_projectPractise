@@ -9,7 +9,7 @@ users = Blueprint("users", "__name__")
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = brcypt.generate_password_hash(form.password.data).decode('utf-8') # Hash the password
@@ -18,7 +18,7 @@ def register():
         db.session.add(user)
         db.session.commit() # Add and commit changes to the db
         flash(f'Your account has been created. You are now able to log in', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template("register.html", form=form, title='Register')
 
 @users.route('/login', methods=['GET', 'POST'])
@@ -31,7 +31,7 @@ def login():
         if user and brcypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)       # login_user manages the log in process
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash('Login Unsuccesful. Please check email and password', 'danger')
     return render_template("login.html", form=form, title='Login')
@@ -39,7 +39,7 @@ def login():
 @users.route('/logout') # Display the logout nav
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 
 @users.route('/account', methods=['GET', 'POST'])   # Display account
@@ -54,7 +54,7 @@ def account():
         current_user.email = form.email.data
         db.session.commit()
         flash('Your account has been updated succesfully!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
