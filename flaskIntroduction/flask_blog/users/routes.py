@@ -3,6 +3,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_blog.users.forms import RegistrationForm, LoginForm, UpdateForm
 from flask_blog.models import User
 from flask_login import login_user, logout_user, current_user, login_required
+from flask_blog.users.utils import save_pic
 
 users = Blueprint("users", "__name__")
 
@@ -40,6 +41,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.home'))
+
 
 
 @users.route('/account', methods=['GET', 'POST'])   # Display account

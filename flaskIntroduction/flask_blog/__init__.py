@@ -2,15 +2,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_blog.config import Config
 
 # import json
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'a72b2bd403ed74e86db3ac5ada8c6ab0'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+
 db = SQLAlchemy(app)
 brcypt = Bcrypt(app)
+app.config.from_object(Config)
 login_manager = LoginManager(app)
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
